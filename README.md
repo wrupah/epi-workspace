@@ -73,9 +73,9 @@ The first two environment types include referenced repositories with reference i
 
 If you have trouble installing the *epi-workspace*, please try to follow the guide provided on [PrivateSky.xyz](https://privatesky.xyz/?Start/installation)
 
-### Shared Network
+## Shared Network
 
-#### Infrastructure setup
+### Step 1: Infrastructure setup
 
 In a first step the basic infrastructure needs to be provisioned. This includes:
 
@@ -85,8 +85,51 @@ In a first step the basic infrastructure needs to be provisioned. This includes:
     - Calico
     - Load balancer controller
     - Tigera
+- Required CLI tools
 
 There are different approaches to install this setup within AWS, Azure or similar. This documentation provides a **terraform based installation in AWS incl. AWS EKS** which can be adapted for further use in Azure or similar.
+
+#### Create a cloud account or on-premise environment
+
+This documentation supports AWS accounts, but similar steps are implementable for Azure and on-premise environments as well.
+
+- You require admin access rights via portal and CLI
+- Required CLI tools:
+    - AWS CLI (or smilar)
+    - kubectl
+    - k9s
+    - helm
+    - terraform
+
+#### Setup the infrastructure
+
+[This repository] contains the reference instructure deployment based on AWS EKS. You can provision the infrastructure in the following ways:
+
+1. Manual terraform deployment
+
+```sh
+cd pharmaledger-infrastructure
+terraform plan -var-file=terraform-dev.tfvars -out terraform.plan
+terraform apply "terraform.plan"
+```
+
+2. Terraform deployment with GitHub Actions
+
+```sh
+jobs:
+  deploy_aws_infrastructure:
+    steps:
+      - name: Deploy PharmaLedger Kubernetes
+        uses: PharmaLedger-IMI/pharmaledger-infrastructure@v1.0.1
+```
+
+## Standalone Network
+
+...
+
+## Local Installation
+
+...
 
 ### Step 1: Clone the workspace
 
