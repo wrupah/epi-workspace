@@ -1,16 +1,33 @@
 # epi-workspace
 
-*epi-workspace*  bundles all the necessary dependencies for building and running EPI SSApps in a single package.
+The *epi-workspace*  bundles all the necessary dependencies for building and running ePI SSApps in a single package.
 
 For more details about what a *workspace* is check out the [template-workspace](https://github.com/PrivateSky/template-workspace).
 
 ## Table of contents
-1. [Version Information](#versioning)
-2. [Installation](#installation)    
-   1. [Clone the workspace](#step-1-clone-the-workspace)
-   2. [Launch the "server"](#step-2-launch-the-server)
-   3. [Build all things needed for the application to run](#step-3-build-all-things-needed-for-the-application-to-run)
-3. [Running](#running)
+1. [Version Information - v1.0.1](#versioning)
+2. [Environment Compatibility Matrix](#environment-compatibility-matrix)
+2. [Installation](#installation)
+    1. [Shared network](#shared-network)
+        1. [Infrastructure setup](#infrastructure-setup)
+        2. [Blockchain setup](#blockchain-setup)
+        3. [Ethereum Adapter setup](#ethereum-adapter-setup)
+        4. [ePI Application setup](#epi-application-setup)
+    2. [Standalone network](#standalone-network)
+        1. Infrastructure setup
+        2. Blockchain setup
+        3. Ethereum Adapter setup
+        4. ePI Application setup
+    3. [Local installation](#local-installation)
+        1. [Clone the workspace](#step-1-clone-the-workspace)
+        2. [Launch the "server"](#step-2-launch-the-server)
+        3. [Build all things needed for the application to run](#step-3-build-all-things-needed-for-the-application-to-run)
+3. [Upgrade from v1.0.0](#upgrade)
+    1. [Shared network](#upgrade-shared-network)
+    2. [Standalone network](#upgrade-standalone-network)
+    3. [Local installation](#upgrade-local-installation)
+3. [Automate with GitHub Actions](#github-actions)
+3. [Run & First Startup of ePI](#running)
     1. [Enterprise wallet](#enterprise-wallet)
     2. [Register new account details](#step-1-register-new-account-details) 
     3. [Setup credentials for Issuer and Holder](#step-2-setup-credentials-for-issuer-and-holder)
@@ -21,9 +38,42 @@ For more details about what a *workspace* is check out the [template-workspace](
     2. [Testing ApiHub Mapping Engine](#testing-apihub-mapping-engine)
 
 
+## Version information v1.0.1
+
+This version of the ePI application has been released on 17.01.2022.
+
+Added features are:
+- Video content at the level of leaflets, products, batches
+
+Removed features:
+- Technical error message to app user
+
+Please find additional release details [here](https://github.com/PharmaLedger-IMI/epi-workspace/releases/tag/v1.0.1).
+
+All unit and developer tests have been successfully passed. Please find more test details [here](https://github.com/PharmaLedger-IMI/epi-workspace/releases/tag/v1.0.1)
+
+## Environment Compatibility Matrix
+
+Below you find the current compatibility matrix for all ePI environment types. Please find the installation and upgrade procedures in the sections below.
+
+| Environment 	| ePI Application 	| Ethereum Adapter 	| Blockchain 	| Last upgrade 	|
+|-------------	|:---------------:	|:----------------:	|:----------:	|:------------:	|
+| Sandbox     	|      1.0.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  17.01.2022  	|
+| Dev         	|      1.0.0      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  28.10.2021  	|
+| QA          	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  14.09.2021  	|
+| Prod        	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  21.09.2021  	|
+
+
 ## Installation
 
-In order to use the workspace, we need to follow a list of steps presented below. 
+In order to install the ePI application, we need to follow a list of steps presented below.
+
+The installation procedures are differentiated into three different environment types:
+1. Shared network - used for Dev, QA and Prod
+2. Standalone network - used for Sandbox
+3. Local installation - used by Developers
+
+The first two environment types include referenced repositories with reference implementations based on Terraform and Helm for Kubernetes.
 
 If you have trouble installing the *epi-workspace*, please try to follow the guide provided on [PrivateSky.xyz](https://privatesky.xyz/?Start/installation)
 
