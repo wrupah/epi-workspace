@@ -14,10 +14,6 @@ For more details about what a *workspace* is check out the [template-workspace](
         3. [Ethereum Adapter setup](#ethereum-adapter-setup)
         4. [ePI Application setup](#epi-application-setup)
     2. [Standalone network](#standalone-network)
-        1. Infrastructure setup
-        2. Blockchain setup
-        3. Ethereum Adapter setup
-        4. ePI Application setup
     3. [Local installation](#local-installation)
         1. [Clone the workspace](#step-1-clone-the-workspace)
         2. [Launch the "server"](#step-2-launch-the-server)
@@ -40,12 +36,12 @@ For more details about what a *workspace* is check out the [template-workspace](
 
 ## Version information v1.0.1
 
-This version of the ePI application has been released on 17.01.2022.
+This version of the ePI application has been released on `17.01.2022`.
 
-Added features are:
+**Added features are:**
 - Video content at the level of leaflets, products, batches
 
-Removed features:
+**Removed features:**
 - Technical error message to app user
 
 Please find additional release details [here](https://github.com/PharmaLedger-IMI/epi-workspace/releases/tag/v1.0.1).
@@ -58,10 +54,10 @@ Below you find the current compatibility matrix for all ePI environment types. P
 
 | Environment 	| ePI Application 	| Ethereum Adapter 	| Blockchain 	| Last upgrade 	|
 |-------------	|:---------------:	|:----------------:	|:----------:	|:------------:	|
-| Sandbox     	|      1.0.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  17.01.2022  	|
-| Dev         	|      1.0.0      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  28.10.2021  	|
-| QA          	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  14.09.2021  	|
-| Prod        	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  21.09.2021  	|
+| **Sandbox**     	|      1.0.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  17.01.2022  	|
+| **Dev**         	|      1.0.0      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  28.10.2021  	|
+| **QA**          	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  14.09.2021  	|
+| **Prod**        	|      0.8.1      	|  2.1.2<br>2.1.1  	|   > 1.7.1  	|  21.09.2021  	|
 
 
 ## Installation
@@ -69,13 +65,28 @@ Below you find the current compatibility matrix for all ePI environment types. P
 In order to install the ePI application, we need to follow a list of steps presented below.
 
 The installation procedures are differentiated into three different environment types:
-1. Shared network - used for Dev, QA and Prod
-2. Standalone network - used for Sandbox
-3. Local installation - used by Developers
+1. **Shared network** - used for Dev, QA and Prod
+2. **Standalone network** - used for Sandbox
+3. **Local installation** - used by Developers
 
 The first two environment types include referenced repositories with reference implementations based on Terraform and Helm for Kubernetes.
 
 If you have trouble installing the *epi-workspace*, please try to follow the guide provided on [PrivateSky.xyz](https://privatesky.xyz/?Start/installation)
+
+### Shared Network
+
+#### Infrastructure setup
+
+In a first step the basic infrastructure needs to be provisioned. This includes:
+
+- Network
+- Kubernetes
+- Kubernetes tools
+    - Calico
+    - Load balancer controller
+    - Tigera
+
+There are different approaches to install this setup within AWS, Azure or similar. This documentation provides a **terraform based installation in AWS incl. AWS EKS** which can be adapted for further use in Azure or similar.
 
 ### Step 1: Clone the workspace
 
