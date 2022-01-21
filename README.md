@@ -1,8 +1,12 @@
-# epi-workspace
+# The PharmaLedger ePI Use Case
 
-The *epi-workspace*  bundles all the necessary dependencies for building and running ePI SSApps in a single package.
+As the PharmaLedger platform provides blockchain-enabled healthcare, the ePI use case enables electronic Product Information (ePI).
 
-For more details about what a *workspace* is check out the [template-workspace](https://github.com/PrivateSky/template-workspace).
+This *epi-workspace* repository bundles all the necessary software, dependencies and installation procedures to setup a blockchain network and run the ePI software.
+
+Reach out to epi-software@pharmaledger.eu for further assistance.
+
+The repository is based on PrivateSky [template-workspace](https://github.com/PrivateSky/template-workspace).
 
 ## Table of contents
 1. [Version Information - v1.0.1](#versioning)
@@ -34,7 +38,7 @@ For more details about what a *workspace* is check out the [template-workspace](
     2. [Testing ApiHub Mapping Engine](#testing-apihub-mapping-engine)
 
 
-## Version information v1.0.1
+## ePI Version information v1.0.1
 
 This version of the ePI application has been released on `17.01.2022`.
 
@@ -87,7 +91,7 @@ In a first step the basic infrastructure needs to be provisioned. This includes:
     - Tigera
 - Required CLI tools
 
-There are different approaches to install this setup within AWS, Azure or similar. This documentation provides a **terraform based installation in AWS incl. AWS EKS** which can be adapted for further use in Azure or similar.
+There are different approaches to install this setup within AWS, Azure or similar. This documentation provides a *terraform based installation in AWS incl. AWS EKS* which can be adapted for further use in Azure or similar.
 
 #### Create a cloud account or on-premise environment
 
@@ -103,12 +107,15 @@ This documentation supports AWS accounts, but similar steps are implementable fo
 
 #### Setup the infrastructure
 
-[This repository] contains the reference instructure deployment based on AWS EKS. You can provision the infrastructure in the following ways:
+[This repository]() contains the reference instructure deployment based on AWS EKS. You can provision the infrastructure in the following ways:
 
 1. Manual terraform deployment
 
 ```sh
+git clone -b "v0.1.0" https://github.com/PharmaLedger-IMI/pharmaledger-infrastructure.git
 cd pharmaledger-infrastructure
+
+terraform init
 terraform plan -var-file=terraform-dev.tfvars -out terraform.plan
 terraform apply "terraform.plan"
 ```
@@ -123,13 +130,98 @@ jobs:
         uses: PharmaLedger-IMI/pharmaledger-infrastructure@v1.0.1
 ```
 
+### Setup the Blockchain network/nodes
+
+1. Manual helm deployment
+
+```sh
+git clone -b "v0.1.0" https://github.com/PharmaLedger-IMI/helmcharts-ethadapter.git
+cd helmcharts-ethadapter
+
+# adjust helm values for customization
+vi values.yaml
+
+helm install
+
+```
+
+2. Helm deployment with Terraform and GitHub Actions
+
+Prerequisites:
+- urls..
+- secrets..
+
+```sh
+jobs:
+  deploy_blockchain:
+    steps:
+      - name: Deploy Blockchain Network
+        uses: PharmaLedger-IMI/helmcharts-ethadapter@v1.0.1
+```
+
+### Setup the Ethereum Adapter for GoQuorum
+
+1. Manual helm deployment
+
+```sh
+git clone -b "v0.1.0" https://github.com/PharmaLedger-IMI/helmcharts-ethadapter.git
+cd helmcharts-ethadapter
+
+# adjust helm values for customization
+vi values.yaml
+
+helm install
+
+```
+
+2. Helm deployment with Terraform and GitHub Actions
+
+Prerequisites:
+- urls..
+- secrets..
+
+```sh
+jobs:
+  deploy_ethadapter:
+    steps:
+      - name: Deploy Ethereum Adapter
+        uses: PharmaLedger-IMI/helmcharts-ethadapter@v1.0.1
+```
+
+### Setup the ePI software
+
+1. Manual helm deployment
+
+```sh
+git clone -b "v0.1.0" https://github.com/PharmaLedger-IMI/helmcharts-ethadapter.git
+cd helmcharts-ethadapter
+
+# adjust helm values for customization
+vi values.yaml
+
+helm install
+
+```
+
+2. Helm deployment with Terraform and GitHub Actions
+
+Prerequisites:
+- urls..
+- secrets..
+
+```sh
+jobs:
+  deploy_epi:
+    steps:
+      - name: Deploy ePI Software
+        uses: PharmaLedger-IMI/helmcharts-ethadapter@v1.0.1
+```
+
 ## Standalone Network
 
 ...
 
 ## Local Installation
-
-...
 
 ### Step 1: Clone the workspace
 
@@ -174,44 +266,49 @@ $ npm run build-all
 ## Running 
 To run the application launch your browser (preferably Chrome) in Incognito mode and access the http://localhost:8080 link.
 
-### Enterprise wallet
+### Wallet Overview
 
-Enterprise wallet allows creation of Products and Batches.
+The ePI software provides three different wallet types. The use cases for the three wallets are described below.
 
-#### Step 1: Register new account details
+#### Patient Wallet
+
+The patient wallet is the end user facing web application or native mobile app. This app provides the end user the capabilitiy to scan products, access electronic product information and verify products.
+
+#### Enterprise Wallet
+
+The enterprise wallet is used as the backend application by the manufacturer. The main purpose is to allow creation of products, batches and the upload of their related electronic product information. The enterprise wallet can be used as a web application or just as an API-based solution.
+
+#### Demiurge Wallet
+
+The demiurge wallet is allows to manage access groups and permissions. It is used by administrators to provide access permissions to enterprise wallet users. Only permitted enterprise wallet users can create new products, batches and electronic product information.
+
+#### Step 1: Register new account details for demiurge & enterprise wallet
 
 ```
-Username: test1234
+Username: e.g. firstnamelastname-walletname
 
-Email: test@test.test
+Email: name@company.test
 
-Company: Test Company Inc
+Company: Company Inc
 
-Password: Test1234567890#
+Password: !##ChooseAZecurePassw0rd!=
 ```
 
-#### Step 2: Setup credentials for Issuer and Holder
-    1. Go to MAH as Issuer page
-    2. Put "epi" in application domain field and press "Generate an identifier as company" button
-    3. Go to User as Holder page
-    4. Enter the application domain "epi" and press "Generate an Identifier as User" button
-    5. Copy the generated User Identity
-    6. Go again to MAH as Issuer page
-    7. Paste the generated User Identity into the first input field
-    8. Press the "Generate Credential" button
-    9. Copy the generated credential
-    10. Go again to User as Holder page
-    11. In the "Human readable User Identity" section paste the previous generated crendetial and press the button "Save Credential"
-    12. Finally for the current user, the Human readable Credential should look like the following: 
-![alt text](user_credential.png)    
+#### Step 2: Provides access rights to the enterprise wallet user
+
+    1. Access the demiurge wallet with the created admin user
+    2. Go to "Groups"
+    3. Edit the "Admin Rights" group
+    4. Add your created enterprise wallet user to the group  
    
-Now you will act as a Holder thus will be able to add Products (and leaflets for it) and create Batches of products.
+Now your enterprise wallet user has the required permissions to access the enterprise wallet and API.
 
+#### Step 3: Create new products and batches
 
-
-### EPI Client
-This is the part a normal user will see. The part that will
-be used to scan barcodes on drug's packages.
+    1. Access the enterprise wallet with the created user
+    2. Go to "Products" or "Batches"
+    3. Add new items
+    4. Find more details and instructions here: Word Document
 
 ## Prepare & release a new stable version of the workspace
 Steps:
